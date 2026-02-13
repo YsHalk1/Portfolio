@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>NotHalk — Портфолио</title>
+  <meta name="description" content="NotHalk" />
+
+  <style>
+    :root{
+      --bg: #0b0c10;
+      --glass: rgba(255,255,255,.07);
+      --border: rgba(255,255,255,.14);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.62);
+      --shadow: 0 24px 70px rgba(0,0,0,.55);
+      --radius: 10px;
+      --radius2: 10px;
+      --max: 1120px;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{
+      height: 100%;
+      width: 100%;
+      overflow-x: hidden;
+      background: var(--bg);
+    }
+
+    body{
+      margin:0;
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans";
+    }
+
+    a{ color:inherit; text-decoration:none; }
+
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 24px 18px 70px;
+    }
+
+    /* subtle noise */
+    body::before{
+      content:"";
+      position: fixed;
+      inset: 0;
+      pointer-events:none;
+      opacity: .10;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+      background-size: 220px 220px;
+    }
+
+    /* glass base */
+    .glass{
+      background: var(--glass);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(3px);
+      -webkit-backdrop-filter: blur(14px);
+    }
+
+    /* Topbar */
+    .topbar{
+      position: sticky;
+      top: 14px;
+      z-index: 40;
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding-left: 6px;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      padding-right: 6px;
+    }
+
+    .nav a{
+      font-size: 14px;
+      color: var(--muted);
+      padding: 8px 10px;
+      border-radius: var(--radius);
+      border: 1px solid transparent;
+      transition: .2s ease;
+    }
+
+    .nav a:hover{
+      color: var(--text);
+      background: rgba(255,255,255,.06);
+      border-color: rgba(255,255,255,.12);
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.08);
+      color: var(--text);
+      box-shadow: 0 18px 55px rgba(0,0,0,.35);
+      transition: transform .15s ease, background .2s ease, border-color .2s ease;
+      font-weight: 650;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.24);
+      background: rgba(255,255,255,.10);
+    }
+    .btn:active{ transform: translateY(0px) scale(.99); }
+
+    /* Hero */
+    .hero{
+      padding: 24px 0 18px;
+      display:grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+    @media (max-width: 920px){
+      .hero{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      border-radius: var(--radius2);
+      overflow: hidden;
+    }
+
+    .hero-main{ padding: 22px; }
+
+    h1{
+      margin: 0 0 12px;
+      font-size: clamp(26px, 3.4vw, 44px);
+      line-height: 1.08;
+      letter-spacing: -0.5px;
+    }
+    .subtitle{
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55;
+      max-width: 64ch;
+    }
+
+    .cta{
+      display:flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items:center;
+      margin-top: 10px;
+    }
+
+    .meta-row{
+      margin-top: 14px;
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 9px 12px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      white-space: nowrap;
+    }
+
+    /* Side */
+    .hero-side{ padding: 14px; display:flex; flex-direction:column; gap: 12px; }
+
+    .mini{
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      padding: 14px;
+    }
+    .mini h3{
+      margin: 0 0 10px;
+      font-size: 14px;
+      letter-spacing: .2px;
+      color: rgba(255,255,255,.86);
+    }
+
+    .skill-grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .skill{
+      padding: 10px 10px;
+      border-radius: var(--radius);
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.10);
+      color: var(--muted);
+      font-size: 13px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      min-width: 0;
+    }
+    .skill span:first-child{
+      overflow:hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 140px;
+    }
+
+    .bar{
+      height: 6px;
+      width: 56px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.10);
+      overflow: visible;         /* чтобы могло вылезать */
+      position: relative;
+      flex: 0 0 auto;
+    }
+    .bar > i{
+      display:block;
+      height:100%;
+      width: 60%;
+      background: rgba(255,255,255,.70);
+      border-radius: var(--radius);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* твои кастомные бары */
+    .skill:nth-child(2) .bar > i{
+      width: 0%;
+      transform: translateX(-100%); /* “-100%” влево */
+    }
+    .skill:nth-child(3) .bar > i{ width: 70%; }
+    .skill:nth-child(4) .bar > i{ width: 200%; } /* “вылезает” вправо */
+
+    /* Sections */
+    section{ margin-top: 26px; }
+
+    .section-head{
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap: 14px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .section-head h2{
+      margin:0;
+      font-size: 20px;
+      letter-spacing: .2px;
+    }
+    .section-head p{
+      margin:0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+      max-width: 70ch;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 12px;
+    }
+
+    .project{
+      grid-column: span 6;
+      padding: 16px;
+      border-radius: var(--radius2);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      transition: transform .15s ease, background .2s ease, border-color .2s ease;
+      overflow:hidden;
+      min-height: 150px;
+    }
+    .project:hover{
+      transform: translateY(-2px);
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.20);
+    }
+    @media (max-width: 900px){
+      .project{ grid-column: span 12; }
+    }
+
+    .tagrow{ display:flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px; }
+    .tag{
+      font-size: 12px;
+      color: rgba(255,255,255,.75);
+      padding: 6px 10px;
+      border-radius: var(--radius);
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.10);
+    }
+    .project h3{ margin: 0 0 8px; font-size: 16px; }
+    .project p{
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+      max-width: 60ch;
+    }
+    .links{ display:flex; gap: 10px; flex-wrap: wrap; }
+    .link{
+      font-size: 13px;
+      color: rgba(255,255,255,.82);
+      padding: 8px 10px;
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      transition: .2s ease;
+    }
+    .link:hover{ background: rgba(255,255,255,.09); border-color: rgba(255,255,255,.20); }
+
+    footer{
+      margin-top: 26px;
+      color: rgba(255,255,255,.50);
+      font-size: 13px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      padding-top: 16px;
+    }
+
+    :target{ scroll-margin-top: 100px; }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <header class="topbar glass">
+      <div class="brand">NotHalk</div>
+
+      <nav class="nav">
+        <a href="#projects">Проекты</a>
+        <a href="#contact">Связь</a>
+        
+      </nav>
+    </header>
+
+    <main>
+      <div class="hero">
+        <div class="card glass">
+          <div class="hero-main">
+            <h1>Просто инфа обо мне.</h1>
+            <p class="subtitle">
+              Здесь мои проекты, ссылочки, да и всякая хуйня.
+            </p>
+
+            <div class="cta">
+              <a class="btn" href="#projects">Лист проектов</a>
+            </div>
+
+            <div class="meta-row">
+              <div class="pill">Плагины</div>
+              <div class="pill">Аддоны</div>
+              <div class="pill">3D Анимации/Модели</div>
+            </div>
+          </div>
+        </div>
+
+        <aside class="card glass">
+          <div class="hero-side">
+            <div class="mini">
+              <h3>Сильные стороны</h3>
+              <div class="skill-grid">
+                <div class="skill"><span>UI / UX</span><span class="bar"><i></i></span></div>
+                <div class="skill"><span>Привлекательность</span><span class="bar"><i></i></span></div>
+                <div class="skill"><span>3D</span><span class="bar"><i></i></span></div>
+                <div class="skill"><span>Просмотр аниме</span><span class="bar"><i></i></span></div>
+              </div>
+            </div>
+
+            <div class="mini">
+              <h3>Каналы</h3>
+              <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <a class="link" href="https://discord.gg/V7wqBqfqU9" target="_blank" rel="noreferrer">Discord</a>
+                <a class="link" href="https://t.me/RoflPlugins" target="_blank" rel="noreferrer">Telegram</a>
+                <a class="link" href="https://www.tiktok.com/@yshalk1?_r=1&_t=ZS-93stdKf1Qor" target="_blank" rel="noreferrer">TikTok</a>
+              </div>
+            </div>
+
+            <div class="mini">
+              <h3>Статистика</h3>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <div class="pill" style="justify-content:space-between;"><span style="color:var(--muted)">Лет</span><b>17.8</b></div>
+                <div class="pill" style="justify-content:space-between;"><span style="color:var(--muted)">Опыт</span><b>2+</b></div>
+                <div class="pill" style="justify-content:space-between;"><span style="color:var(--muted)">Отец</span><b>1</b></div>
+                <div class="pill" style="justify-content:space-between;"><span style="color:var(--muted)">Speed</span><b>нету</b></div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <section id="projects">
+        <div class="section-head">
+          <div>
+            <h2>Проекты</h2>
+            <p>Только крутые штучки</p>
+          </div>
+        </div>
+
+        <div class="grid">
+          <article class="project">
+            <div class="tagrow">
+              <span class="tag">Telegram/ExteraGram</span>
+              <span class="tag">Plugin</span>
+              <span class="tag">Python</span>
+            </div>
+            <h3>ExteraRSS</h3>
+            <p>RSS ленты прямо в Telegram!</p>
+            <div class="links">
+              <a class="link" href="https://t.me/RoflPlugins/416" target="_blank" rel="noreferrer">Установить</a>
+            </div>
+          </article>
+
+          <article class="project">
+            <div class="tagrow">
+              <span class="tag">Telegram/ExteraGram</span>
+              <span class="tag">Plugin</span>
+              <span class="tag">Python</span>
+            </div>
+            <h3>SendSound</h3>
+            <p>Настройте звуки при отправке сообщений.</p>
+            <div class="links">
+              <a class="link" href="https://t.me/RoflPlugins/101" target="_blank" rel="noreferrer">Установить</a>
+            </div>
+          </article>
+
+          <article class="project">
+            <div class="tagrow">
+              <span class="tag">Roblox</span>
+              <span class="tag">Blender3D</span>
+              <span class="tag">Python</span>
+            </div>
+            <h3>RbxRecorder</h3>
+            <p>Аддон и плагин: конвертирует геймплей Roblox в анимацию Blender3D. Ожидается огромное обновление!</p>
+            <div class="links">
+              <span class="tag">В работе!</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section id="contact">
+        <div class="section-head">
+          <div>
+            <h2>Связь</h2>
+            <p>Самые быстрые способы связаться</p>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div class="project" style="grid-column: span 12;">
+            <div class="links">
+              <a class="link" href="https://t.me/NotHalk" target="_blank" rel="noreferrer">Telegram</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <div>© <span id="year"></span> NotHalk. Все права не защищены.</div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const id = a.getAttribute('href');
+        if (!id || id === "#") return;
+        const el = document.querySelector(id);
+        if (!el) return;
+        e.preventDefault();
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
